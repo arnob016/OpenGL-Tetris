@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <GL/gl.h>
 
+float rotationAngle = 0.0;
+float ljYPosition = 100.0;
+
 void init(void)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -70,10 +73,18 @@ void DrawShapeLL(float x, float y, float r, float g, float b)
 
 void DrawShapeLJ(float x, float y, float r, float g, float b)
 {
-    DrawBlock(x, y, r, g, b);
-    DrawBlock(x, y - 10.0, r, g, b);
-    DrawBlock(x, y - 20.0, r, g, b);
-    DrawBlock(x - 10.0, y - 20.0, r, g, b);
+    glPushMatrix();
+    glTranslatef(x, ljYPosition, 0.0);
+    glRotatef(rotationAngle, 0.0, 0.0, 1.0);
+
+    DrawBlock(0.0, 0.0, r, g, b);
+    DrawBlock(0.0, -10.0, r, g, b);
+    DrawBlock(0.0, -20.0, r, g, b);
+    DrawBlock(-10.0, -20.0, r, g, b);
+
+    glPopMatrix();
+
+    ljYPosition -= 0.01;
 }
 
 void DrawShapeTU(float x, float y, float r, float g, float b)
@@ -131,14 +142,48 @@ void Draw()
     glClear(GL_COLOR_BUFFER_BIT);
     DrawShapeLL(0.0, 0.0, 1.0, 0.0, 0.0);
     DrawShapeLJ(-100.0, 60.0, 0.8, 0.6, 0.4);
-    DrawShapeZZ(-100.0, -30.0, 1.0, 0.5, 0.5);
     DrawShapeZR(70.0, -80.0, 0.0, 0.8, 0.0);
     DrawShapeTU(50.0, 50.0, 0.0, 1.0, 1.0);
     DrawShapeTD(40.0, 10.0, 1.0, 0.5, 0.0);
+    DrawShapeZZ(-100.0, -30.0, 1.0, 0.5, 0.5);
     DrawShapeSQ(-50.0, 50.0, 1.0, 1.0, 0.0);
     DrawShapeII(100.0, 10.0, 1.0, 0.0, 1.0);
     glutSwapBuffers();
 }
+
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 27: // ESC key
+        exit(0);
+        break;
+    }
+}
+
+void specialKeys(int key, int x, int y)
+{
+    switch (key)
+    {
+    case GLUT_KEY_UP:
+        rotationAngle -= 90.0;
+        break;
+    case GLUT_KEY_DOWN:
+        rotationAngle += 90.0;
+        break;
+    case GLUT_KEY_LEFT:
+        // Move object left
+        glTranslatef(-10.0, 0.0, 0.0);
+        break;
+    case GLUT_KEY_RIGHT:
+        // Move object right
+        glTranslatef(10.0, 0.0, 0.0);
+        break;
+    }
+
+    glutPostRedisplay();
+}
+
 
 int main(int argc, char **argv)
 {
@@ -148,7 +193,10 @@ int main(int argc, char **argv)
     glutInitWindowSize(500, 500);
     glutCreateWindow("Tetris testing");
     init();
+    glutIdleFunc(Draw);
     glutDisplayFunc(Draw);
+    glutKeyboardFunc(keyboard);
+    glutSpecialFunc(specialKeys);
     glutMainLoop();
     return 0;
-}
+    }

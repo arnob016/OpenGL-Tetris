@@ -209,15 +209,10 @@
 1228530724 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-1692900129 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1453865572 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
-	<stddef.h>
-	<corecrt.h>
-	<OpenGL/gl.h>
-	<OpenGL/glu.h>
 	<GL/gl.h>
 	<GL/glu.h>
-	<CodeAnalysis\sourceannotations.h>
 
 1228530734 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
 
@@ -242,6 +237,12 @@
 	<GL/gl.h>
 
 1695584681 source:d:\opengl push\opengl-tetris\tetris project\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<stdio.h>
+	<GL/gl.h>
+
+1700833117 source:j:\diu\gl\opengl-tetris\tetris project\main.cpp
 	<windows.h>
 	<GL/glut.h>
 	<stdio.h>
