@@ -5,6 +5,7 @@
 
 float rotationAngle = 0.0;
 float ljYPosition = 100.0;
+float ljXPosition = 0;
 
 void init(void)
 {
@@ -70,22 +71,22 @@ void DrawShapeLL(float x, float y, float r, float g, float b)
     DrawBlock(x, y - 20.0, r, g, b);
     DrawBlock(x + 10.0, y - 20.0, r, g, b);
 }
-
 void DrawShapeLJ(float x, float y, float r, float g, float b)
 {
     glPushMatrix();
-    glTranslatef(x, ljYPosition, 0.0);
+    glTranslatef(ljXPosition, ljYPosition, 0.0);
     glRotatef(rotationAngle, 0.0, 0.0, 1.0);
 
+    // Draw the LJ object
     DrawBlock(0.0, 0.0, r, g, b);
     DrawBlock(0.0, -10.0, r, g, b);
     DrawBlock(0.0, -20.0, r, g, b);
     DrawBlock(-10.0, -20.0, r, g, b);
 
     glPopMatrix();
-
     ljYPosition -= 0.01;
 }
+
 
 void DrawShapeTU(float x, float y, float r, float g, float b)
 {
@@ -155,7 +156,7 @@ void keyboard(unsigned char key, int x, int y)
 {
     switch (key)
     {
-    case 27: // ESC key
+    case 27:
         exit(0);
         break;
     }
@@ -166,18 +167,16 @@ void specialKeys(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_UP:
-        rotationAngle -= 90.0;
-        break;
-    case GLUT_KEY_DOWN:
         rotationAngle += 90.0;
         break;
+    case GLUT_KEY_DOWN:
+        ljYPosition -= 10.0;
+        break;
     case GLUT_KEY_LEFT:
-        // Move object left
-        glTranslatef(-10.0, 0.0, 0.0);
+        ljXPosition -= 10.0;
         break;
     case GLUT_KEY_RIGHT:
-        // Move object right
-        glTranslatef(10.0, 0.0, 0.0);
+        ljXPosition += 10.0;
         break;
     }
 
